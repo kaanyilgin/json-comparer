@@ -5,14 +5,26 @@ type DataSet struct {
 	Data string
 }
 
-// Init creates a new DataSet object
-func (dataSet DataSet) Init(data string) *DataSet {
-	newDataSet := new(DataSet)
-	newDataSet.Data = data
-	return newDataSet
+// NewDataSet creates a new DataSet object
+func NewDataSet(data string) *DataSet {
+	return &DataSet{
+		Data: data,
+	}
 }
 
 // Compare compares given dataset
 func (dataSet DataSet) Compare(data string) bool {
-	return len(dataSet.Data) == len(data)
+	isSameSize := len(dataSet.Data) == len(data)
+
+	if isSameSize == false {
+		return false
+	}
+
+	for i := 0; i < len(dataSet.Data); i++ {
+		if dataSet.Data[i] != data[i] {
+			return false
+		}
+	}
+
+	return true
 }

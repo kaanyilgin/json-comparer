@@ -7,11 +7,10 @@ import (
 )
 
 func TestCompareDifferentSize(t *testing.T) {
-	var firstSet = "[{id:5},{id:6}]"
-	var secondSet = "[{id:5}]"
+	var firstSet = `[{"id":5},{"id":6}]`
+	var secondSet = `[{"id":5}]`
 
-	dataSet := new(model.DataSet)
-	dataSet.Init(firstSet)
+	dataSet := model.NewDataSet(firstSet)
 	isEqual := dataSet.Compare(secondSet)
 
 	if isEqual != false {
@@ -20,11 +19,10 @@ func TestCompareDifferentSize(t *testing.T) {
 }
 
 func TestCompareSameSizeDifferentInformation(t *testing.T) {
-	var firstSet = "[{id:5},{id:6}]"
-	var secondSet = "[{id:5},{id:7}]"
+	var firstSet = `[{"id":5},{"id":6}]`
+	var secondSet = `[{"id":5},{"id":7}]`
 
-	dataSet := new(model.DataSet)
-	dataSet.Init(firstSet)
+	dataSet := model.NewDataSet(firstSet)
 	isEqual := dataSet.Compare(secondSet)
 
 	if isEqual != false {
