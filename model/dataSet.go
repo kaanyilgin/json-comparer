@@ -6,13 +6,13 @@ type DataSet struct {
 }
 
 // Init creates a new DataSet object
-func (p DataSet) Init(data string) *DataSet {
-	dataSet := new(DataSet)
-	dataSet.Data = data
-	return dataSet
+func (dataSet DataSet) Init(data string) *DataSet {
+	newDataSet := new(DataSet)
+	newDataSet.Data = data
+	return newDataSet
 }
 
 // Compare compares given dataset
-func (p DataSet) Compare(data string) bool {
-	return true
+func (dataSet DataSet) Compare(data string) bool {
+	return len(dataSet.Data) == len(data)
 }
