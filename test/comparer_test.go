@@ -31,7 +31,7 @@ func TestCompareSameSizeDifferentInformation(t *testing.T) {
 }
 func TestCompareSameJsonRandomOrder(t *testing.T) {
 	var firstSet = `[{"id":6},{"id":5}]`
-	var secondSet = `[{"id":5},{"id":7}]`
+	var secondSet = `[{"id":5},{"id":6}]`
 
 	dataSet := model.NewDataSet(firstSet)
 	isEqual := dataSet.Compare(secondSet)
