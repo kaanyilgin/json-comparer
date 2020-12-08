@@ -5,8 +5,18 @@ import (
 )
 
 // ParseJSON parse json into a dynamic object
-func ParseJSON(data string) []map[string]interface{} {
+func ParseJSON(data string) []JSONObject {
 	var result []map[string]interface{}
 	json.Unmarshal([]byte(data), &result)
-	return result
+	objects := make([]JSONObject, 0)
+
+	for mapKey := range result {
+		object := &JSONObject{
+			object: result[mapKey],
+		}
+
+		objects = append(objects, *object)
+	}
+
+	return objects
 }
