@@ -12,7 +12,7 @@ func ParseJSON(data string) []JSONObject {
 
 	for mapKey := range result {
 		object := &JSONObject{
-			object: result[mapKey],
+			attributes: result[mapKey],
 		}
 
 		objects = append(objects, *object)

@@ -2,7 +2,7 @@ package model
 
 // JSONObject stands for json object
 type JSONObject struct {
-	object map[string]interface{}
+	attributes map[string]interface{}
 }
 
 // Compare compares the given json object

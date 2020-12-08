@@ -23,8 +23,8 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 	differentObjects := make([]interface{}, 0)
 
 	for objectIndex, object := range dataSet.objects {
-		for attributeName, attributeValue := range object.object {
-			if attributeValue != comparedData.objects[objectIndex].object[attributeName] {
+		for attributeName, attributeValue := range object.attributes {
+			if attributeValue != comparedData.objects[objectIndex].attributes[attributeName] {
 				differentObjects = append(differentObjects, attributeValue)
 			}
 		}
@@ -33,16 +33,16 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 	sameObjectCount := 0
 
 	for mapKey, mapValue := range dataSet.objects {
-		for attributeKey := range mapValue.object {
+		for attributeKey := range mapValue.attributes {
 			valueFound := false
 			for mapKey2, mapValue2 := range comparedData.objects {
 				if valueFound {
 					break
 				}
-				for attributeKey2 := range mapValue2.object {
+				for attributeKey2 := range mapValue2.attributes {
 					if attributeKey == attributeKey2 {
-						attributeValue1 := dataSet.objects[mapKey].object[attributeKey]
-						attributeValue2 := comparedData.objects[mapKey2].object[attributeKey2]
+						attributeValue1 := dataSet.objects[mapKey].attributes[attributeKey]
+						attributeValue2 := comparedData.objects[mapKey2].attributes[attributeKey2]
 						if attributeValue1 == attributeValue2 {
 							sameObjectCount++
 							valueFound = true
@@ -70,7 +70,7 @@ func (dataSet DataSet) getTotalAttributeCount() int {
 	for i := 0; i < dataSet.getObjectCount(); i++ {
 		object := dataSet.objects[i]
 
-		for j := 0; j < len(object.object); j++ {
+		for j := 0; j < len(object.attributes); j++ {
 			attributeCount++
 		}
 	}
