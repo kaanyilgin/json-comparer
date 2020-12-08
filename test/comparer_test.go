@@ -57,3 +57,16 @@ func TestCompareDifferentJsonWithDuplicatedValue(t *testing.T) {
 		t.Errorf("Is eqaul was incorrect, different json with duplicated value")
 	}
 }
+
+func TestCompareSameJsonWithOneDataSetHasBlanBetweenObjects(t *testing.T) {
+	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
+	var secondSet = `[{"id":5, "name":"Due"}, {"id":6, "name":"John"}]`
+
+	dataSet := model.NewDataSet(firstSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
+
+	if isEqual != true {
+		t.Errorf("Datasets are identical but one of them has blank between objects and attributes.")
+	}
+}
