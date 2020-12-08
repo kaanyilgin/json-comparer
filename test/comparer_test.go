@@ -44,3 +44,16 @@ func TestCompareSameJsonRandomOrder(t *testing.T) {
 		t.Errorf("Is eqaul was incorrect, same json random order")
 	}
 }
+
+func TestCompareDifferentJsonWithDuplicatedValue(t *testing.T) {
+	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
+	var secondSet = `[{"id":5,"name":"Due"},{"id":5,"name":"Due"}]`
+
+	dataSet := model.NewDataSet(firstSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
+
+	if isEqual != false {
+		t.Errorf("Is eqaul was incorrect, different json with duplicated value")
+	}
+}

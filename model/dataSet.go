@@ -38,6 +38,7 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 		for j := 0; j < len(comparedData.objects); j++ {
 			if dataSet.objects[i] == comparedData.objects[j] {
 				sameObjectCountr++
+				break
 			}
 		}
 	}
