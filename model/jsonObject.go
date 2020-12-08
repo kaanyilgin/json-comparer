@@ -7,5 +7,13 @@ type JSONObject struct {
 
 // Compare compares the given json object
 func (jsonObject JSONObject) Compare(comparedJSONObject JSONObject) bool {
-	return false
+	for key, attribute := range jsonObject.attributes {
+		for comparedKey, comparedAttribute := range comparedJSONObject.attributes {
+			if key == comparedKey && attribute != comparedAttribute {
+				return false
+			}
+		}
+	}
+
+	return true
 }

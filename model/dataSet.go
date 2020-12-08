@@ -20,60 +20,29 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 		return false
 	}
 
-	differentObjects := make([]interface{}, 0)
+	return dataSet.compareDataSets(comparedData)
+}
 
-	for objectIndex, object := range dataSet.objects {
-		for attributeName, attributeValue := range object.attributes {
-			if attributeValue != comparedData.objects[objectIndex].attributes[attributeName] {
-				differentObjects = append(differentObjects, attributeValue)
+func (dataSet DataSet) compareDataSets(comparedDataSet *DataSet) bool {
+	for _, object := range dataSet.objects {
+		differentObjectCount := 0
+
+		for _, objectCompared := range comparedDataSet.objects {
+			if object.Compare(objectCompared) == false {
+				differentObjectCount++
+			} else {
+				break
 			}
+		}
+
+		if dataSet.getObjectCount() == differentObjectCount {
+			return false
 		}
 	}
 
-	sameObjectCount := 0
-
-	for mapKey, mapValue := range dataSet.objects {
-		for attributeKey := range mapValue.attributes {
-			valueFound := false
-			for mapKey2, mapValue2 := range comparedData.objects {
-				if valueFound {
-					break
-				}
-				for attributeKey2 := range mapValue2.attributes {
-					if attributeKey == attributeKey2 {
-						attributeValue1 := dataSet.objects[mapKey].attributes[attributeKey]
-						attributeValue2 := comparedData.objects[mapKey2].attributes[attributeKey2]
-						if attributeValue1 == attributeValue2 {
-							sameObjectCount++
-							valueFound = true
-						}
-					}
-				}
-			}
-		}
-	}
-
-	if dataSet.getTotalAttributeCount() == comparedData.getTotalAttributeCount() && dataSet.getTotalAttributeCount() == sameObjectCount {
-		return true
-	}
-
-	return false
+	return true
 }
 
 func (dataSet DataSet) getObjectCount() int {
 	return len(dataSet.objects)
-}
-
-func (dataSet DataSet) getTotalAttributeCount() int {
-	attributeCount := 0
-
-	for i := 0; i < dataSet.getObjectCount(); i++ {
-		object := dataSet.objects[i]
-
-		for j := 0; j < len(object.attributes); j++ {
-			attributeCount++
-		}
-	}
-
-	return attributeCount
 }

@@ -83,3 +83,16 @@ func TestCompareDifferentJsonWithOneDataSetHasBlankInAttiribute(t *testing.T) {
 		t.Errorf("Datasets are different with one blank in attirubte")
 	}
 }
+
+func TestCompareDifferentJsonWithIdenticalAttributesInDifferentObjects(t *testing.T) {
+	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
+	var secondSet = `[{"id":6,"name":"Due"},{"id":5,"name":"John"}]`
+
+	dataSet := model.NewDataSet(firstSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
+
+	if isEqual != false {
+		t.Errorf("Datasets are different but there are identical attributes in different objects")
+	}
+}
