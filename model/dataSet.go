@@ -1,12 +1,8 @@
 package model
 
-import (
-	"strings"
-)
-
 // DataSet is using for storing data
 type DataSet struct {
-	objects []string
+	objects []map[string]interface{}
 }
 
 // NewDataSet creates a new DataSet object
@@ -18,41 +14,66 @@ func NewDataSet(data string) *DataSet {
 
 // Compare compares given dataset
 func (dataSet DataSet) Compare(comparedData *DataSet) bool {
-	isSameSize := len(dataSet.objects) == len(comparedData.objects)
+	isSameSize := dataSet.getObjectCount() == comparedData.getObjectCount()
 
 	if isSameSize == false {
 		return false
 	}
 
-	differentObjects := make([]string, 0)
+	differentObjects := make([]interface{}, 0)
 
-	for i := 0; i < len(dataSet.objects); i++ {
-		if dataSet.objects[i] != comparedData.objects[i] {
-			differentObjects = append(differentObjects, dataSet.objects[i])
-		}
-	}
-
-	sameObjectCountr := 0
-
-	for i := 0; i < len(dataSet.objects); i++ {
-		for j := 0; j < len(comparedData.objects); j++ {
-			if dataSet.objects[i] == comparedData.objects[j] {
-				sameObjectCountr++
-				break
+	for mapKey, mapValue := range dataSet.objects {
+		for attributeKey, attributeValue := range mapValue {
+			if attributeValue != comparedData.objects[mapKey][attributeKey] {
+				differentObjects = append(differentObjects, attributeValue)
 			}
 		}
 	}
 
-	if len(dataSet.objects) == len(comparedData.objects) && len(dataSet.objects) == sameObjectCountr {
+	sameObjectCount := 0
+
+	for mapKey, mapValue := range dataSet.objects {
+		for attributeKey := range mapValue {
+			valueFound := false
+			for mapKey2, mapValue2 := range comparedData.objects {
+				if valueFound {
+					break
+				}
+				for attributeKey2 := range mapValue2 {
+					if attributeKey == attributeKey2 {
+						attributeValue1 := dataSet.objects[mapKey][attributeKey]
+						attributeValue2 := comparedData.objects[mapKey2][attributeKey2]
+						if attributeValue1 == attributeValue2 {
+							sameObjectCount++
+							valueFound = true
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if dataSet.getTotalAttributeCount() == comparedData.getTotalAttributeCount() && dataSet.getTotalAttributeCount() == sameObjectCount {
 		return true
 	}
 
 	return false
 }
 
-func parseJSON(data string) []string {
-	data = strings.Replace(data, "[", "", 1)
-	data = strings.Replace(data, "]", "", 1)
-	splittedObject := strings.Split(data, ",")
-	return splittedObject
+func (dataSet DataSet) getObjectCount() int {
+	return len(dataSet.objects)
+}
+
+func (dataSet DataSet) getTotalAttributeCount() int {
+	attributeCount := 0
+
+	for i := 0; i < dataSet.getObjectCount(); i++ {
+		object := dataSet.objects[i]
+
+		for j := 0; j < len(object); j++ {
+			attributeCount++
+		}
+	}
+
+	return attributeCount
 }
