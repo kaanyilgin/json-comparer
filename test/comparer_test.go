@@ -11,7 +11,8 @@ func TestCompareDifferentSize(t *testing.T) {
 	var secondSet = `[{"id":5}]`
 
 	dataSet := model.NewDataSet(firstSet)
-	isEqual := dataSet.Compare(secondSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
 		t.Errorf("Is eqaul was incorrect, two different sized dataset.")
@@ -23,7 +24,8 @@ func TestCompareSameSizeDifferentInformation(t *testing.T) {
 	var secondSet = `[{"id":5},{"id":7}]`
 
 	dataSet := model.NewDataSet(firstSet)
-	isEqual := dataSet.Compare(secondSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
 		t.Errorf("Is eqaul was incorrect, two different information dataset.")
@@ -35,7 +37,8 @@ func TestCompareSameJsonRandomOrder(t *testing.T) {
 	var secondSet = `[{"id":5},{"id":6}]`
 
 	dataSet := model.NewDataSet(firstSet)
-	isEqual := dataSet.Compare(secondSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != true {
 		t.Errorf("Is eqaul was incorrect, same json random order")
