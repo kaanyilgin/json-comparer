@@ -24,23 +24,25 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 }
 
 func (dataSet DataSet) compareDataSets(comparedDataSet *DataSet) bool {
-	differentObjectCount := 0
-
 	for _, object := range dataSet.objects {
+		differentObjectCount := 0
+
 		for _, objectCompared := range comparedDataSet.objects {
 			if object.Compare(objectCompared) == false {
 				differentObjectCount++
 			} else {
-				differentObjectCount--
+				break
 			}
 		}
 
-		if dataSet.getObjectCount() == differentObjectCount {
+		objectIsExistInComparedDataSet := dataSet.getObjectCount() != differentObjectCount
+
+		if objectIsExistInComparedDataSet == false {
 			return false
 		}
 	}
 
-	return 0 == differentObjectCount
+	return true
 }
 
 func (dataSet DataSet) getObjectCount() int {
