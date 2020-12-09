@@ -5,6 +5,13 @@ type JSONObject struct {
 	attributes map[string]interface{}
 }
 
+// NewJSONObject creates a new NewJSONObject object
+func NewJSONObject(attributes map[string]interface{}) *JSONObject {
+	return &JSONObject{
+		attributes: attributes,
+	}
+}
+
 // Compare compares the given json object
 func (jsonObject JSONObject) Compare(comparedJSONObject JSONObject) bool {
 	return jsonObject.isThereAnyUnMatchedAttribute(comparedJSONObject)

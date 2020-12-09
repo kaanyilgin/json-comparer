@@ -10,11 +10,8 @@ func ParseJSON(data string) []JSONObject {
 	json.Unmarshal([]byte(data), &result)
 	objects := make([]JSONObject, 0)
 
-	for mapKey := range result {
-		object := &JSONObject{
-			attributes: result[mapKey],
-		}
-
+	for _, attributes := range result {
+		object := NewJSONObject(attributes)
 		objects = append(objects, *object)
 	}
 
