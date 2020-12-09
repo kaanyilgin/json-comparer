@@ -15,7 +15,7 @@ func TestCompareDifferentSize(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
-		t.Errorf("Is eqaul was incorrect, two different sized dataset.")
+		t.Errorf("Two different sized jsons are not identical")
 	}
 }
 
@@ -28,7 +28,7 @@ func TestCompareSameSizeDifferentInformation(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
-		t.Errorf("Is eqaul was incorrect, two different information dataset.")
+		t.Errorf("Datasets have same different objects are not identical")
 	}
 }
 
@@ -41,7 +41,7 @@ func TestCompareSameJsonRandomOrder(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != true {
-		t.Errorf("Is eqaul was incorrect, same json random order")
+		t.Errorf("Datasets have same objects in different order are identical")
 	}
 }
 
@@ -54,7 +54,7 @@ func TestCompareDifferentJsonWithDuplicatedValue(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
-		t.Errorf("Is eqaul was incorrect, different json with duplicated value")
+		t.Errorf("Different datasets when on of them has duplicated matched objects are not identical")
 	}
 }
 
@@ -67,7 +67,7 @@ func TestCompareSameJsonWithOneDataSetHasBlankBetweenObjects(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != true {
-		t.Errorf("Datasets are identical but one of them has blank between objects and attributes.")
+		t.Errorf("Datasets are identical if one of them has some whitespace between attributes and objects")
 	}
 }
 
@@ -80,7 +80,7 @@ func TestCompareDifferentJsonWithOneDataSetHasBlankInAttiribute(t *testing.T) {
 	isEqual := dataSet.Compare(secondDataSet)
 
 	if isEqual != false {
-		t.Errorf("Datasets are different with one blank in attirubte")
+		t.Errorf("Datasets are different with when there is a different whitespace in the value")
 	}
 }
 
