@@ -122,3 +122,16 @@ func TestCompareSameJsonWithRandomAttributeOrderWith3Items(t *testing.T) {
 		t.Errorf("Datasets are same but object and attribute orders are random with 3 items")
 	}
 }
+
+func TestCompareDifferentJsonSecondHasDifferentObject(t *testing.T) {
+	var firstSet = `[{"id":5},{"id":6},{"id":5}]`
+	var secondSet = `[{"id":5},{"id":7},{"id":6}]`
+
+	dataSet := model.NewDataSet(firstSet)
+	secondDataSet := model.NewDataSet(secondSet)
+	isEqual := dataSet.Compare(secondDataSet)
+
+	if isEqual != false {
+		t.Errorf("Datasets are different when second has a different object")
+	}
+}

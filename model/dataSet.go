@@ -24,13 +24,15 @@ func (dataSet DataSet) Compare(comparedData *DataSet) bool {
 }
 
 func (dataSet DataSet) compareDataSets(comparedDataSet *DataSet) bool {
-	for _, object := range dataSet.objects {
+	for i, object := range dataSet.objects {
 		differentObjectCount := 0
 
-		for _, objectCompared := range comparedDataSet.objects {
+		for j, objectCompared := range comparedDataSet.objects {
 			if object.Compare(objectCompared) == false {
 				differentObjectCount++
 			} else {
+				dataSet.objects = remove(dataSet.objects, i)
+				comparedDataSet.objects = remove(comparedDataSet.objects, j)
 				break
 			}
 		}
@@ -47,4 +49,8 @@ func (dataSet DataSet) compareDataSets(comparedDataSet *DataSet) bool {
 
 func (dataSet DataSet) getObjectCount() int {
 	return len(dataSet.objects)
+}
+
+func remove(slice []JSONObject, s int) []JSONObject {
+	return append(slice[:s], slice[s+1:]...)
 }
