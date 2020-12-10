@@ -18,6 +18,10 @@ func (jsonObject JSONObject) Compare(comparedJSONObject JSONObject) bool {
 }
 
 func (jsonObject JSONObject) isThereAnyUnMatchedAttribute(comparedJSONObject JSONObject) bool {
+	if len(jsonObject.attributes) != len(comparedJSONObject.attributes) {
+		return false
+	}
+
 	for key, attribute := range jsonObject.attributes {
 		for comparedKey, comparedAttribute := range comparedJSONObject.attributes {
 			if key == comparedKey && attribute != comparedAttribute {
