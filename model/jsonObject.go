@@ -2,33 +2,19 @@ package model
 
 // JSONObject stands for json object
 type JSONObject struct {
-	attributes map[string]interface{}
+	attributes     map[string]interface{}
+	objectComparer ObjectComparer
 }
 
 // NewJSONObject creates a new NewJSONObject object
-func NewJSONObject(attributes map[string]interface{}) *JSONObject {
+func NewJSONObject(attributes map[string]interface{}, objectComparer ObjectComparer) *JSONObject {
 	return &JSONObject{
-		attributes: attributes,
+		attributes:     attributes,
+		objectComparer: objectComparer,
 	}
 }
 
 // Compare compares the given json object
-func (jsonObject JSONObject) Compare(comparedJSONObject JSONObject) bool {
-	return jsonObject.isThereAnyUnMatchedAttribute(comparedJSONObject)
-}
-
-func (jsonObject JSONObject) isThereAnyUnMatchedAttribute(comparedJSONObject JSONObject) bool {
-	if len(jsonObject.attributes) != len(comparedJSONObject.attributes) {
-		return false
-	}
-
-	for key, attribute := range jsonObject.attributes {
-		for comparedKey, comparedAttribute := range comparedJSONObject.attributes {
-			if key == comparedKey && attribute != comparedAttribute {
-				return false
-			}
-		}
-	}
-
-	return true
+func (jsonObject JSONObject) Compare(comparedJSONObject JSONObject) (bool, error) {
+	return jsonObject.objectComparer.Compare(jsonObject, comparedJSONObject)
 }

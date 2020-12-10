@@ -116,6 +116,23 @@ func TestCompareDifferentJsonSecondHasDifferentObject(t *testing.T) {
 	}
 }
 
+func compareDataSet(dataset1 string, dataset2 string) bool {
+	dataSet := createDataSet(dataset1)
+	secondDataSet := createDataSet(dataset2)
+	isEqual, _ := dataSet.Compare(secondDataSet)
+	return isEqual
+}
+
+func createDataSet(data string) *model.DataSet {
+	mockDataReader := &mockDataReader{
+		data: data,
+	}
+	dataSetComparer := model.LoopingTwoDataSetComparer{}
+	objectComparer := model.LoopingTwoObjectAttributeComparer{}
+
+	return model.NewDataSet("", mockDataReader, dataSetComparer, objectComparer)
+}
+
 type mockDataReader struct {
 	DataReader,
 	data string
@@ -124,20 +141,4 @@ type mockDataReader struct {
 //Read returns the file content
 func (m mockDataReader) Read(fileName string) (string, error) {
 	return m.data, nil
-}
-
-func createDataSet(data string) *model.DataSet {
-	mockDataReader := &mockDataReader{
-		data: data,
-	}
-	objectComparer := model.LoopingTwoDataSetComparer{}
-
-	return model.NewDataSet("", mockDataReader, objectComparer)
-}
-
-func compareDataSet(dataset1 string, dataset2 string) bool {
-	dataSet := createDataSet(dataset1)
-	secondDataSet := createDataSet(dataset2)
-	isEqual, _ := dataSet.Compare(secondDataSet)
-	return isEqual
 }

@@ -19,7 +19,7 @@ func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet 
 		for j := 0; j < secondDataSet.getObjectCount(); j++ {
 			objectCompared := secondDataSet.getObjects()[j]
 
-			if object.Compare(objectCompared) == false {
+			if isEqual, _ := object.Compare(objectCompared); isEqual == false {
 				differentObjectCount++
 			} else {
 				firstDataSet.objects = remove(firstDataSet.getObjects(), i)

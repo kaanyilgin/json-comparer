@@ -9,9 +9,10 @@ import (
 
 func Benchmark(b *testing.B) {
 	reader := &infrastructure.FileReader{}
-	objectComparer := new(model.LoopingTwoDataSetComparer)
-	dataset := model.NewDataSet("MOCK_DATA.json", reader, objectComparer)
-	dataset2 := model.NewDataSet("MOCK_DATA.json", reader, objectComparer)
+	dataSetComparer := new(model.LoopingTwoDataSetComparer)
+	objectComparer := model.LoopingTwoObjectAttributeComparer{}
+	dataset := model.NewDataSet("MOCK_DATA.json", reader, dataSetComparer, objectComparer)
+	dataset2 := model.NewDataSet("MOCK_DATA.json", reader, dataSetComparer, objectComparer)
 
 	isEqual, _ := dataset.Compare(dataset2)
 
