@@ -7,7 +7,7 @@ type ObjectComparer interface {
 
 //LoopingTwoObjectAttributeComparer compares two objects going through whole attribute
 type LoopingTwoObjectAttributeComparer struct {
-	DataSetComparer
+	ObjectComparer
 }
 
 //Compare compares two object
