@@ -4,16 +4,23 @@ import (
 	"encoding/json"
 )
 
+// JSONParser provides an interface to parse json to JSONObjects
+type JSONParser interface {
+	ParseJSON(data string) []map[string]interface{}
+}
+
+//SystemJSONParser parse json to JSONObjects by using "encoding/json"
+type SystemJSONParser struct {
+	JSONParser
+}
+
+func newSystemJSONParser() *SystemJSONParser {
+	return &SystemJSONParser{}
+}
+
 // ParseJSON parse json into a dynamic object
-func ParseJSON(data string, objectComparer ObjectComparer) []JSONObject {
+func (s SystemJSONParser) ParseJSON(data string) []map[string]interface{} {
 	var result []map[string]interface{}
 	json.Unmarshal([]byte(data), &result)
-	objects := make([]JSONObject, 0)
-
-	for _, attributes := range result {
-		object := NewJSONObject(attributes, objectComparer)
-		objects = append(objects, *object)
-	}
-
-	return objects
+	return result
 }

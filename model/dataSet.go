@@ -9,15 +9,17 @@ type DataSet struct {
 	dataSetComparer DataSetComparer
 	objectComparer  ObjectComparer
 	fileName        string
+	jsonParser      JSONParser
 }
 
 // NewDataSet creates a new DataSet object
-func NewDataSet(fileName string, dataReader infrastructure.DataReader, dataSetComparer DataSetComparer, objectComparer ObjectComparer) *DataSet {
+func NewDataSet(fileName string, dataReader infrastructure.DataReader, dataSetComparer DataSetComparer, objectComparer ObjectComparer, jsonParser JSONParser) *DataSet {
 	return &DataSet{
 		dataReader:      dataReader,
 		fileName:        fileName,
 		dataSetComparer: dataSetComparer,
 		objectComparer:  objectComparer,
+		jsonParser:      jsonParser,
 	}
 }
 
@@ -38,7 +40,15 @@ func (dataSet *DataSet) getObjectCount() int {
 
 func (dataSet *DataSet) readDataFromSource() []JSONObject {
 	data, _ := dataSet.dataReader.Read(dataSet.fileName)
-	return ParseJSON(data, dataSet.objectComparer)
+	serializedJSONObjects := dataSet.jsonParser.ParseJSON(data)
+	objects := make([]JSONObject, 0)
+
+	for _, attributes := range serializedJSONObjects {
+		object := NewJSONObject(attributes, dataSet.objectComparer)
+		objects = append(objects, *object)
+	}
+
+	return objects
 }
 
 func (dataSet *DataSet) getObjects() []JSONObject {

@@ -1,9 +1,7 @@
-package test
+package model
 
 import (
 	"testing"
-
-	"kaanyilgin.com/dataComparer/model"
 )
 
 func TestCompareDifferentSize(t *testing.T) {
@@ -123,14 +121,15 @@ func compareDataSet(dataset1 string, dataset2 string) bool {
 	return isEqual
 }
 
-func createDataSet(data string) *model.DataSet {
+func createDataSet(data string) *DataSet {
 	mockDataReader := &mockDataReader{
 		data: data,
 	}
-	dataSetComparer := model.LoopingTwoDataSetComparer{}
-	objectComparer := model.LoopingTwoObjectAttributeComparer{}
+	dataSetComparer := LoopingTwoDataSetComparer{}
+	objectComparer := LoopingTwoObjectAttributeComparer{}
+	jsonParser := &SystemJSONParser{}
 
-	return model.NewDataSet("", mockDataReader, dataSetComparer, objectComparer)
+	return NewDataSet("", mockDataReader, dataSetComparer, objectComparer, jsonParser)
 }
 
 type mockDataReader struct {
