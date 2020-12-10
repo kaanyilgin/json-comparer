@@ -3,6 +3,7 @@ package test
 import (
 	"testing"
 
+	"kaanyilgin.com/dataComparer/infrastructure"
 	"kaanyilgin.com/dataComparer/model"
 )
 
@@ -139,4 +140,14 @@ func compareDataSet(dataset1 string, dataset2 string) bool {
 	secondDataSet := createDataSet(dataset2)
 	isEqual, _ := dataSet.Compare(secondDataSet)
 	return isEqual
+}
+
+func Benchmark(b *testing.B) {
+	reader := &infrastructure.FileReader{}
+	dataset := model.NewDataSet("MOCK_DATA.json", reader)
+	dataset2 := model.NewDataSet("MOCK_DATA.json", reader)
+
+	isEqual, _ := dataset.Compare(dataset2)
+
+	print(isEqual)
 }
