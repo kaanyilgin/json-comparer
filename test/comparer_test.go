@@ -3,7 +3,6 @@ package test
 import (
 	"testing"
 
-	"kaanyilgin.com/dataComparer/infrastructure"
 	"kaanyilgin.com/dataComparer/model"
 )
 
@@ -117,14 +116,6 @@ func TestCompareDifferentJsonSecondHasDifferentObject(t *testing.T) {
 	}
 }
 
-func createDataSet(data string) *model.DataSet {
-	mockDataReader := &mockDataReader{
-		data: data,
-	}
-
-	return model.NewDataSet("", mockDataReader)
-}
-
 type mockDataReader struct {
 	DataReader,
 	data string
@@ -135,19 +126,18 @@ func (m mockDataReader) Read(fileName string) (string, error) {
 	return m.data, nil
 }
 
+func createDataSet(data string) *model.DataSet {
+	mockDataReader := &mockDataReader{
+		data: data,
+	}
+	objectComparer := model.LoopingTwoDataSetComparer{}
+
+	return model.NewDataSet("", mockDataReader, objectComparer)
+}
+
 func compareDataSet(dataset1 string, dataset2 string) bool {
 	dataSet := createDataSet(dataset1)
 	secondDataSet := createDataSet(dataset2)
 	isEqual, _ := dataSet.Compare(secondDataSet)
 	return isEqual
-}
-
-func Benchmark(b *testing.B) {
-	reader := &infrastructure.FileReader{}
-	dataset := model.NewDataSet("MOCK_DATA.json", reader)
-	dataset2 := model.NewDataSet("MOCK_DATA.json", reader)
-
-	isEqual, _ := dataset.Compare(dataset2)
-
-	print(isEqual)
 }
