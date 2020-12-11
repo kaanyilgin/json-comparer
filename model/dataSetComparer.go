@@ -7,7 +7,6 @@ type DataSetComparer interface {
 
 //LoopingTwoDataSetComparer compares two dataset going through whole dataset
 type LoopingTwoDataSetComparer struct {
-	DataSetComparer
 }
 
 //Compare compares two dataset

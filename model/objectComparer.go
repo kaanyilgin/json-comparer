@@ -7,7 +7,6 @@ type ObjectComparer interface {
 
 //FindAttributeByKeyObjectComparer compares two objects going through whole attribute
 type FindAttributeByKeyObjectComparer struct {
-	ObjectComparer
 }
 
 //Compare compares two object

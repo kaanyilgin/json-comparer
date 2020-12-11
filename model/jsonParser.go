@@ -11,7 +11,6 @@ type JSONParser interface {
 
 //SystemJSONParser parse json to JSONObjects by using "encoding/json"
 type SystemJSONParser struct {
-	JSONParser
 }
 
 func newSystemJSONParser() *SystemJSONParser {
