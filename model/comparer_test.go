@@ -126,7 +126,7 @@ func createDataSet(data string) *DataSet {
 		data: data,
 	}
 	dataSetComparer := LoopingTwoDataSetComparer{}
-	objectComparer := LoopingTwoObjectAttributeComparer{}
+	objectComparer := FindAttributeByKeyObjectComparer{}
 	jsonParser := &SystemJSONParser{}
 
 	return NewDataSet("", mockDataReader, dataSetComparer, objectComparer, jsonParser)
