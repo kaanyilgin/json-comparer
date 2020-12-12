@@ -14,7 +14,14 @@ func NewDataSet(dataSetComparer DataSetComparer) *DataSetArrayObject {
 }
 
 // NewDataSet creates a new DataSet object for testing
-func NewDataSetTesting(objects []JSONObject, dataSetComparer DataSetComparer) *DataSetArrayObject {
+func NewDataSetTesting(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSetArrayObject {
+	jsonObjects := make([]JSONObject, 0)
+
+	for _, v := range objects {
+		jsonObject := NewJSONObject(v)
+		jsonObjects = append(jsonObjects, jsonObject)
+	}
+
 	return &DataSetArrayObject{
 		dataSetComparer: dataSetComparer,
 		objects:         objects,

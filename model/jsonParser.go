@@ -26,7 +26,7 @@ type JSONObjectParser struct {
 
 // ParseJSON parse json into a dynamic object
 func (j JSONObjectParser) ParseJSON(data string) interface{} {
-	var result []JSONObject
+	var result []map[string]interface{}
 	json.Unmarshal([]byte(data), &result)
 	return result
 }

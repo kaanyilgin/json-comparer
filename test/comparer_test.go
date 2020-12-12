@@ -140,8 +140,8 @@ func createDataSet(data string) *model.DataSetArrayObject {
 	}
 
 	jsonParser := &model.JSONObjectParser{}
-	objects := jsonParser.ParseJSON(data)
-	dataSet := model.NewDataSetTesting(objects.([]model.JSONObject), dataSetComparer)
+	objects := jsonParser.ParseJSON(data).([]map[string]interface{})
+	dataSet := model.NewDataSetTesting(objects, dataSetComparer)
 	return dataSet
 }
 
