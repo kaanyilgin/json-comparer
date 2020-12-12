@@ -7,22 +7,23 @@ type DataSetComparer interface {
 
 //LoopingTwoDataSetComparer compares two dataset going through whole dataset
 type LoopingTwoDataSetComparer struct {
+	ObjectComparer ObjectComparer
 }
 
 //Compare compares two dataset
 func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSetArrayObject, secondDataSet *DataSetArrayObject) (bool, error) {
 	for i := 0; i < firstDataSet.getObjectCount(); i++ {
 		differentObjectCount := 0
-		object := firstDataSet.getObjects()[i]
+		object := firstDataSet.objects[i]
 
 		for j := 0; j < secondDataSet.getObjectCount(); j++ {
-			objectCompared := secondDataSet.getObjects()[j]
+			objectCompared := secondDataSet.objects[j]
 
-			if isEqual, _ := object.Compare(objectCompared); isEqual == false {
+			if isEqual, _ := object.Compare(l.ObjectComparer, objectCompared); isEqual == false {
 				differentObjectCount++
 			} else {
-				firstDataSet.objects = remove(firstDataSet.getObjects(), i)
-				secondDataSet.objects = remove(secondDataSet.getObjects(), j)
+				firstDataSet.objects = remove(firstDataSet.objects, i)
+				secondDataSet.objects = remove(secondDataSet.objects, j)
 				differentObjectCount--
 				i--
 				break

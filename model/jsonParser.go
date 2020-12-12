@@ -6,20 +6,27 @@ import (
 
 // JSONParser provides an interface to parse json to JSONObjects
 type JSONParser interface {
-	ParseJSON(data string) JSONObjectMap
+	ParseJSON(data string) interface{}
 }
 
 //SystemJSONParser parse json to JSONObjects by using "encoding/json"
-type SystemJSONParser struct {
-}
-
-func newSystemJSONParser() *SystemJSONParser {
-	return &SystemJSONParser{}
+type JSONObjectMapParser struct {
 }
 
 // ParseJSON parse json into a dynamic object
-func (s SystemJSONParser) ParseJSON(data string) JSONObjectMap {
+func (j JSONObjectMapParser) ParseJSON(data string) interface{} {
 	var result JSONObjectMap
+	json.Unmarshal([]byte(data), &result)
+	return result
+}
+
+//SystemJSONParser parse json to JSONObjects by using "encoding/json"
+type JSONObjectParser struct {
+}
+
+// ParseJSON parse json into a dynamic object
+func (j JSONObjectParser) ParseJSON(data string) interface{} {
+	var result []JSONObject
 	json.Unmarshal([]byte(data), &result)
 	return result
 }

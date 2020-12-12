@@ -24,7 +24,7 @@ func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 	for _, object := range unMarshalledData {
 		jsonObject2 := object.(map[string]interface{})
 		hash := utility.AsSha256(jsonObject2)
-		j.dictionary[hash] = NewJSONObject(jsonObject2, nil)
+		j.dictionary[hash] = NewJSONObject(jsonObject2)
 	}
 
 	return nil
