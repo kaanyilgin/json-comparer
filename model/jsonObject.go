@@ -6,7 +6,7 @@ type JSONObject struct {
 	objectComparer ObjectComparer
 }
 
-// NewJSONObject creates a new NewJSONObject object
+// NewJSONObject creates a new JSONObject object
 func NewJSONObject(attributes map[string]interface{}, objectComparer ObjectComparer) *JSONObject {
 	return &JSONObject{
 		attributes,

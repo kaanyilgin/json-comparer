@@ -11,6 +11,10 @@ type LoopingTwoDataSetComparer struct {
 
 //Compare compares two dataset
 func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+	for _, v := range firstDataSet. {
+		
+	}
+
 	for i := 0; i < firstDataSet.getObjectCount(); i++ {
 		differentObjectCount := 0
 		object := firstDataSet.getObjects()[i]
@@ -41,4 +45,38 @@ func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet 
 
 func remove(slice []JSONObject, s int) []JSONObject {
 	return append(slice[:s], slice[s+1:]...)
+}
+
+//LoopingTwoDataSetComparer compares two dataset going through whole dataset
+type HashMapDataSetComparer struct {
+}
+
+//Compare compares two dataset
+func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+	for i := 0; i < firstDataSet.getObjectCount(); i++ {
+		differentObjectCount := 0
+		object := firstDataSet.getObjects()[i]
+
+		for j := 0; j < secondDataSet.getObjectCount(); j++ {
+			objectCompared := secondDataSet.getObjects()[j]
+
+			if isEqual, _ := object.Compare(objectCompared); isEqual == false {
+				differentObjectCount++
+			} else {
+				firstDataSet.objects = remove(firstDataSet.getObjects(), i)
+				secondDataSet.objects = remove(secondDataSet.getObjects(), j)
+				differentObjectCount--
+				i--
+				break
+			}
+
+			objectIsExistInComparedDataSet := firstDataSet.getObjectCount() != differentObjectCount
+
+			if objectIsExistInComparedDataSet == false {
+				return false, nil
+			}
+		}
+	}
+
+	return true, nil
 }

@@ -114,6 +114,16 @@ func TestCompareDifferentJsonSecondHasDifferentObject(t *testing.T) {
 	}
 }
 
+func TestPoly(t *testing.T){
+	var set IDataSet
+	set = new(DataSet)
+	set.IsEqual();
+
+	if isEqual != false {
+		t.Errorf("Datasets are different when second has a different object")
+	}
+}
+
 func compareDataSet(dataset1 string, dataset2 string) bool {
 	dataSet := createDataSet(dataset1)
 	secondDataSet := createDataSet(dataset2)
