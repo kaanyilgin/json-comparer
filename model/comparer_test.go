@@ -44,18 +44,18 @@ func TestCompareDifferentJsonWithDuplicatedValue(t *testing.T) {
 	isEqual := compareDataSet(firstSet, secondSet)
 
 	if isEqual != false {
-		t.Errorf("Different datasets when on of them has duplicated matched objects are not identical")
+		t.Errorf("Different datasets when one of them has duplicated matched objects are not identical")
 	}
 }
 
-func TestCompareDifferentJsonWithDuplicatedValueTODO(t *testing.T) {
+func TestCompareDifferentJsonWithSecondDataSetHasDuplicatedExtraValue(t *testing.T) {
 	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
 	var secondSet = `[{"id":5,"name":"Due"},{"id":5,"name":"Due"},{"id":6,"name":"John"}]`
 
 	isEqual := compareDataSet(firstSet, secondSet)
 
 	if isEqual != false {
-		t.Errorf("Different datasets when on of them has duplicated matched objects are not identical")
+		t.Errorf("Different datasets when one of them has one extra duplicated matched objects are not identical")
 	}
 }
 

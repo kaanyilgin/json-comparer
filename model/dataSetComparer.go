@@ -2,7 +2,7 @@ package model
 
 // DataSetComparer provides an interface to compare two dataset
 type DataSetComparer interface {
-	Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error)
+	Compare(firstDataSet *DataSetArrayObject, secondDataSet *DataSetArrayObject) (bool, error)
 }
 
 //LoopingTwoDataSetComparer compares two dataset going through whole dataset
@@ -10,7 +10,7 @@ type LoopingTwoDataSetComparer struct {
 }
 
 //Compare compares two dataset
-func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSetArrayObject, secondDataSet *DataSetArrayObject) (bool, error) {
 	for i := 0; i < firstDataSet.getObjectCount(); i++ {
 		differentObjectCount := 0
 		object := firstDataSet.getObjects()[i]
