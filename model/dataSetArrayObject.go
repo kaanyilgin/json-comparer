@@ -6,10 +6,18 @@ type DataSetArrayObject struct {
 	dataSetComparer DataSetComparer
 }
 
-// NewDataSet creates a new DataSet object
-func NewDataSet(dataSetComparer DataSetComparer) *DataSetArrayObject {
+// InitDataSetArrayObject creates a new DataSetArrayObject object
+func InitDataSetArrayObject(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSetArrayObject {
+	jsonObjects := make([]JSONObject, 0)
+
+	for _, v := range objects {
+		jsonObject := NewJSONObject(v)
+		jsonObjects = append(jsonObjects, *jsonObject)
+	}
+
 	return &DataSetArrayObject{
 		dataSetComparer: dataSetComparer,
+		objects:         jsonObjects,
 	}
 }
 
@@ -19,12 +27,12 @@ func NewDataSetTesting(objects []map[string]interface{}, dataSetComparer DataSet
 
 	for _, v := range objects {
 		jsonObject := NewJSONObject(v)
-		jsonObjects = append(jsonObjects, jsonObject)
+		jsonObjects = append(jsonObjects, *jsonObject)
 	}
 
 	return &DataSetArrayObject{
 		dataSetComparer: dataSetComparer,
-		objects:         objects,
+		objects:         jsonObjects,
 	}
 }
 

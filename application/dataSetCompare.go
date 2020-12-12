@@ -6,19 +6,23 @@ import (
 )
 
 type DataSetCompare struct {
-	DataReader infrastructure.DataReader
-	JsonParser model.JSONParser
+	DataReader     infrastructure.DataReader
+	JsonParser     model.JSONParser
+	DataSetFactory model.DataSetFactory
 }
 
 func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string) (bool, error) {
-	firstDataSet := d.readDataFromSource(fileName1).(model.IDataSet)
-	secondDataSet := d.readDataFromSource(fileName2).(model.IDataSet)
+	firstDataSetSource, _ := d.readDataFromSource(fileName1)
+	secondDataSetSource, _ := d.readDataFromSource(fileName2)
+
+	firstDataSet := d.DataSetFactory.CreateDataSetFactory(0, firstDataSetSource)
+	secondDataSet := d.DataSetFactory.CreateDataSetFactory(0, secondDataSetSource)
 
 	return firstDataSet.IsEqual(secondDataSet)
 }
 
-func (d DataSetCompare) readDataFromSource(fileName string) interface{} {
-	data, _ := d.DataReader.Read(fileName)
+func (d DataSetCompare) readDataFromSource(fileName string) (interface{}, error) {
+	data, err := d.DataReader.Read(fileName)
 	serializedJSONObjects := d.JsonParser.ParseJSON(data)
-	return serializedJSONObjects
+	return serializedJSONObjects, err
 }
