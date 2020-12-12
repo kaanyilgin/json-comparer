@@ -11,10 +11,6 @@ type LoopingTwoDataSetComparer struct {
 
 //Compare compares two dataset
 func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
-	for _, v := range firstDataSet. {
-		
-	}
-
 	for i := 0; i < firstDataSet.getObjectCount(); i++ {
 		differentObjectCount := 0
 		object := firstDataSet.getObjects()[i]
@@ -52,29 +48,12 @@ type HashMapDataSetComparer struct {
 }
 
 //Compare compares two dataset
-func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
-	for i := 0; i < firstDataSet.getObjectCount(); i++ {
-		differentObjectCount := 0
-		object := firstDataSet.getObjects()[i]
+func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet2, secondDataSet *DataSet2) (bool, error) {
+	for key := range firstDataSet.objects.dictionary {
+		comparedObject := secondDataSet.objects.dictionary[key]
 
-		for j := 0; j < secondDataSet.getObjectCount(); j++ {
-			objectCompared := secondDataSet.getObjects()[j]
-
-			if isEqual, _ := object.Compare(objectCompared); isEqual == false {
-				differentObjectCount++
-			} else {
-				firstDataSet.objects = remove(firstDataSet.getObjects(), i)
-				secondDataSet.objects = remove(secondDataSet.getObjects(), j)
-				differentObjectCount--
-				i--
-				break
-			}
-
-			objectIsExistInComparedDataSet := firstDataSet.getObjectCount() != differentObjectCount
-
-			if objectIsExistInComparedDataSet == false {
-				return false, nil
-			}
+		if comparedObject == nil {
+			return false, nil
 		}
 	}
 

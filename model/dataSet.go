@@ -8,8 +8,8 @@ import (
 	"kaanyilgin.com/dataComparer/infrastructure"
 )
 
-type IDataSet interface{
-	(dataSet interface[}]) IsEqual(comparedData *interface[}) (bool, error)
+type IDataSet interface {
+	IsEqual(comparedData interface{}) (bool, error)
 }
 
 // DataSet is using for storing data
@@ -22,8 +22,15 @@ type DataSet struct {
 	jsonParser      JSONParser
 }
 
-func (dataSet DataSet) IsEqual(comparedData *DataSet) (bool, error){
-	return false, nil
+func (dataSet *DataSet) IsEqual(comparedData interface{}) (bool, error) {
+	dataSetType := comparedData.(*DataSet)
+	isSameSize := dataSet.getObjectCount() == dataSetType.getObjectCount()
+
+	if isSameSize == false {
+		return false, nil
+	}
+
+	return dataSet.dataSetComparer.Compare(dataSet, dataSetType)
 }
 
 // JSONObjectMap stands TODO
@@ -58,11 +65,6 @@ func asSha256(o interface{}) string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-type DataSet2 struct {
-	dataSet	DataSet
-	objects JSONObjectMap
-}
-
 // NewDataSet creates a new DataSet object
 func NewDataSet(fileName string, dataReader infrastructure.DataReader, dataSetComparer DataSetComparer, objectComparer ObjectComparer, jsonParser JSONParser) *DataSet {
 	return &DataSet{
@@ -72,17 +74,6 @@ func NewDataSet(fileName string, dataReader infrastructure.DataReader, dataSetCo
 		objectComparer:  objectComparer,
 		jsonParser:      jsonParser,
 	}
-}
-
-// Compare compares given dataset
-func (dataSet DataSet) Compare(comparedData *DataSet) (bool, error) {
-	isSameSize := dataSet.getObjectCount() == comparedData.getObjectCount()
-
-	if isSameSize == false {
-		return false, nil
-	}
-
-	return dataSet.dataSetComparer.Compare(&dataSet, comparedData)
 }
 
 func (dataSet *DataSet) getObjectCount() int {

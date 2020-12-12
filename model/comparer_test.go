@@ -48,6 +48,17 @@ func TestCompareDifferentJsonWithDuplicatedValue(t *testing.T) {
 	}
 }
 
+func TestCompareDifferentJsonWithDuplicatedValueTODO(t *testing.T) {
+	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
+	var secondSet = `[{"id":5,"name":"Due"},{"id":5,"name":"Due"},{"id":6,"name":"John"}]`
+
+	isEqual := compareDataSet(firstSet, secondSet)
+
+	if isEqual != false {
+		t.Errorf("Different datasets when on of them has duplicated matched objects are not identical")
+	}
+}
+
 func TestCompareSameJsonWithOneDataSetHasBlankBetweenObjects(t *testing.T) {
 	var firstSet = `[{"id":6,"name":"John"},{"id":5,"name":"Due"}]`
 	var secondSet = `[{"id":5, "name":"Due"}, {"id":6, "name":"John"}]`
@@ -114,24 +125,14 @@ func TestCompareDifferentJsonSecondHasDifferentObject(t *testing.T) {
 	}
 }
 
-func TestPoly(t *testing.T){
-	var set IDataSet
-	set = new(DataSet)
-	set.IsEqual();
-
-	if isEqual != false {
-		t.Errorf("Datasets are different when second has a different object")
-	}
-}
-
 func compareDataSet(dataset1 string, dataset2 string) bool {
 	dataSet := createDataSet(dataset1)
 	secondDataSet := createDataSet(dataset2)
-	isEqual, _ := dataSet.Compare(secondDataSet)
+	isEqual, _ := dataSet.IsEqual(secondDataSet)
 	return isEqual
 }
 
-func createDataSet(data string) *DataSet {
+func createDataSet(data string) *DataSet2 {
 	mockDataReader := &mockDataReader{
 		data: data,
 	}
@@ -139,7 +140,7 @@ func createDataSet(data string) *DataSet {
 	objectComparer := FindAttributeByKeyObjectComparer{}
 	jsonParser := &SystemJSONParser{}
 
-	return NewDataSet("", mockDataReader, dataSetComparer, objectComparer, jsonParser)
+	return NewDataSet2("", mockDataReader, dataSetComparer, objectComparer, jsonParser)
 }
 
 type mockDataReader struct {

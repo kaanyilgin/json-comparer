@@ -24,7 +24,18 @@ func BenchmarkWithDirectlyFindAttributeKeyByMapKey(b *testing.B) {
 	dataset := NewDataSet("", mockReader1, dataSetComparer, objectComparer, jsonParser)
 	dataset2 := NewDataSet("", mockReader2, dataSetComparer, objectComparer, jsonParser)
 
-	isEqual, _ := dataset.Compare(dataset2)
+	isEqual, _ := dataset.IsEqual(dataset2)
+
+	print(isEqual)
+}
+
+func BenchmarkObjectHashMap(b *testing.B) {
+	objectComparer := &FindAttributeByKeyObjectComparer{}
+
+	dataset := NewDataSet2("MOCK_DATA.json", reader, dataSetComparer, objectComparer, jsonParser)
+	dataset2 := NewDataSet2("MOCK_DATA.json", reader, dataSetComparer, objectComparer, jsonParser)
+
+	isEqual, _ := dataset.IsEqual(dataset2)
 
 	print(isEqual)
 }
