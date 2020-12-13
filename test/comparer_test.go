@@ -90,7 +90,7 @@ func compareDataSet(dataset1 string, dataset2 string, expectedValue bool, errorM
 	for i := 0; i < len(testCases); i++ {
 		dataSet := createDataSet(i, dataset1)
 		secondDataSet := createDataSet(i, dataset2)
-		isEqual, _ := dataSet.IsEqual(secondDataSet)
+		isEqual := dataSet.IsEqual(secondDataSet)
 
 		if isEqual != expectedValue {
 			t.Errorf("TestCase: " + strconv.Itoa(i) + " failed. " + errorMessage)

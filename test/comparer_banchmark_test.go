@@ -20,7 +20,7 @@ func BenchmarkWithDirectlyFindAttributeKeyByMapKey(b *testing.B) {
 	jsonParser := &model.JSONObjectParser{}
 	dataSetCompare := &application.DataSetCompare{
 		DataReader:     reader,
-		JsonParser:     jsonParser,
+		JSONParser:     jsonParser,
 		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
 	}
 
@@ -32,7 +32,7 @@ func BenchmarkWithDirectlyFindObjectWithHashMap(b *testing.B) {
 	jsonParser := &model.JSONObjectMapParser{}
 	dataSetCompare := &application.DataSetCompare{
 		DataReader:     reader,
-		JsonParser:     jsonParser,
+		JSONParser:     jsonParser,
 		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
 	}
 

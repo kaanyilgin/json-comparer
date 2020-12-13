@@ -32,11 +32,11 @@ func InitDataSetHashMapObject(objects JSONObjectMap, dataSetComparer DataSetComp
 }
 
 // IsEqual compares the given data set
-func (dataSet *DataSet) IsEqual(comparedData *DataSet) (bool, error) {
+func (dataSet *DataSet) IsEqual(comparedData *DataSet) bool {
 	isSameSize := dataSet.objects.GetLength() == comparedData.objects.GetLength()
 
 	if isSameSize == false {
-		return false, nil
+		return false
 	}
 
 	return dataSet.dataSetComparer.Compare(dataSet, comparedData)

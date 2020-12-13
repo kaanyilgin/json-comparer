@@ -5,12 +5,14 @@ import (
 	"kaanyilgin.com/dataComparer/model"
 )
 
+// DataSetCompare compares two json files
 type DataSetCompare struct {
 	DataReader     infrastructure.DataReader
-	JsonParser     model.JSONParser
+	JSONParser     model.JSONParser
 	DataSetFactory model.DataSetFactory
 }
 
+// CompareDataSets reads the files from the sources and compares them
 func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string, dataSetType int) (bool, error) {
 	firstDataSetSource, _ := d.readDataFromSource(fileName1)
 	secondDataSetSource, _ := d.readDataFromSource(fileName2)
@@ -27,11 +29,11 @@ func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string, data
 		return false, err
 	}
 
-	return firstDataSet.IsEqual(secondDataSet)
+	return firstDataSet.IsEqual(secondDataSet), nil
 }
 
 func (d DataSetCompare) readDataFromSource(fileName string) (interface{}, error) {
 	data, err := d.DataReader.Read(fileName)
-	serializedJSONObjects := d.JsonParser.ParseJSON(data)
+	serializedJSONObjects := d.JSONParser.ParseJSON(data)
 	return serializedJSONObjects, err
 }

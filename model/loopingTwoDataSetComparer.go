@@ -6,7 +6,7 @@ type LoopingTwoDataSetComparer struct {
 }
 
 //Compare compares two dataset
-func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) bool {
 	firstDataSetObjects := firstDataSet.objects.(*JSONObjectArray)
 	secondDataSetObjects := secondDataSet.objects.(*JSONObjectArray)
 
@@ -17,7 +17,7 @@ func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet 
 		for j := 0; j < secondDataSetObjects.GetLength(); j++ {
 			objectCompared := secondDataSetObjects.dictonary[j]
 
-			if isEqual, _ := l.ObjectComparer.Compare(object, objectCompared); isEqual == false {
+			if l.ObjectComparer.Compare(object, objectCompared) == false {
 				differentObjectCount++
 			} else {
 				firstDataSetObjects.dictonary = remove(firstDataSetObjects.dictonary, i)
@@ -30,12 +30,12 @@ func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet 
 			objectIsExistInComparedDataSet := firstDataSetObjects.GetLength() != differentObjectCount
 
 			if objectIsExistInComparedDataSet == false {
-				return false, nil
+				return false
 			}
 		}
 	}
 
-	return true, nil
+	return true
 }
 
 func remove(slice []JSONObject, s int) []JSONObject {
