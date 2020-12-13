@@ -14,8 +14,17 @@ type DataSetCompare struct {
 
 // CompareDataSets reads the files from the sources and compares them
 func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string, dataSetType int) (bool, error) {
-	firstDataSetSource, _ := d.readDataFromSource(fileName1)
-	secondDataSetSource, _ := d.readDataFromSource(fileName2)
+	firstDataSetSource, err := d.readDataFromSource(fileName1)
+
+	if err != nil {
+		return false, err
+	}
+
+	secondDataSetSource, err := d.readDataFromSource(fileName2)
+
+	if err != nil {
+		return false, err
+	}
 
 	firstDataSet, err := d.DataSetFactory.CreateDataSet(dataSetType, firstDataSetSource)
 

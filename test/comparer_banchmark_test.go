@@ -9,8 +9,7 @@ import (
 )
 
 var (
-	reader         = &infrastructure.FileReader{}
-	dataSetFactory = &model.DefaultDataSetFactory{}
+	reader = &infrastructure.FileReader{}
 )
 
 func BenchmarkWithDirectlyFindAttributeKeyByMapKey(b *testing.B) {
