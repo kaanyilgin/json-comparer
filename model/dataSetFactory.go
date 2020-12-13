@@ -1,11 +1,14 @@
 package model
 
+import "errors"
+
 const (
-	DataSetArrayObjectType = iota
+	DataSetArrayObjectType   = iota
+	DataSetObjectHashKeyType = iota
 )
 
 type DataSetFactory interface {
-	CreateDataSet(dataSetType int, dataSetObjects interface{}) *DataSet
+	CreateDataSet(dataSetType int, dataSetObjects interface{}) (*DataSet, error)
 }
 
 type DefaultDataSetFactory struct {
@@ -18,10 +21,13 @@ func InitDefaultDataSetFactory(dataSetComparer DataSetComparer) *DefaultDataSetF
 	}
 }
 
-func (d DefaultDataSetFactory) CreateDataSet(dataSetType int, dataSetObjects interface{}) *DataSet {
+func (d DefaultDataSetFactory) CreateDataSet(dataSetType int, dataSetObjects interface{}) (*DataSet, error) {
 	if dataSetType == DataSetArrayObjectType {
-		return InitDataSet(dataSetObjects.([]map[string]interface{}), d.dataSetComparer)
+		return InitDataSet(dataSetObjects.([]map[string]interface{}), d.dataSetComparer), nil
+	}
+	if dataSetType == DataSetObjectHashKeyType {
+		return InitDataSetHashMapObject(dataSetObjects.(JSONObjectMap), d.dataSetComparer), nil
 	}
 
-	return nil
+	return nil, errors.New("Undefined dataset type")
 }

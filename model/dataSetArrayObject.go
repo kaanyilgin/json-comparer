@@ -24,19 +24,10 @@ func InitDataSet(objects []map[string]interface{}, dataSetComparer DataSetCompar
 }
 
 // InitDataSetArrayObject creates a new DataSetArrayObject object
-func InitDataSetHashMapObject(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSet {
-	jsonObjects := make([]JSONObject, 0)
-
-	for _, v := range objects {
-		jsonObject := InitJSONObject(v)
-		jsonObjects = append(jsonObjects, *jsonObject)
-	}
-
+func InitDataSetHashMapObject(objects JSONObjectMap, dataSetComparer DataSetComparer) *DataSet {
 	return &DataSet{
-		dataSetComparer: dataSetComparer,
-		objects: &JSONObjectArray{
-			dictonary: jsonObjects,
-		},
+		objects,
+		dataSetComparer,
 	}
 }
 

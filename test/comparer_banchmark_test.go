@@ -9,22 +9,36 @@ import (
 )
 
 var (
-	dataSetComparer = &model.LoopingTwoDataSetComparer{
-		ObjectComparer: &model.FindAttributeByKeyObjectComparer{},
-	}
 	reader         = &infrastructure.FileReader{}
-	jsonParser     = &model.JSONObjectParser{}
 	dataSetFactory = &model.DefaultDataSetFactory{}
 )
 
 func BenchmarkWithDirectlyFindAttributeKeyByMapKey(b *testing.B) {
+	dataSetComparer := &model.LoopingTwoDataSetComparer{
+		ObjectComparer: &model.FindAttributeByKeyObjectComparer{},
+	}
+	jsonParser := &model.JSONObjectParser{}
 	dataSetCompare := &application.DataSetCompare{
 		DataReader:     reader,
 		JsonParser:     jsonParser,
 		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
 	}
 
-	isEqual, _ := dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA.json")
+	isEqual, _ := dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA.json", 0)
+
+	print(isEqual)
+}
+
+func BenchmarkWithDirectlyFindObjectWithHashMap(b *testing.B) {
+	dataSetComparer := &model.HashMapDataSetComparer{}
+	jsonParser := &model.JSONObjectMapParser{}
+	dataSetCompare := &application.DataSetCompare{
+		DataReader:     reader,
+		JsonParser:     jsonParser,
+		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
+	}
+
+	isEqual, _ := dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA.json", 1)
 
 	print(isEqual)
 }

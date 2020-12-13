@@ -11,12 +11,21 @@ type DataSetCompare struct {
 	DataSetFactory model.DataSetFactory
 }
 
-func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string) (bool, error) {
+func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string, dataSetType int) (bool, error) {
 	firstDataSetSource, _ := d.readDataFromSource(fileName1)
 	secondDataSetSource, _ := d.readDataFromSource(fileName2)
 
-	firstDataSet := d.DataSetFactory.CreateDataSet(0, firstDataSetSource)
-	secondDataSet := d.DataSetFactory.CreateDataSet(0, secondDataSetSource)
+	firstDataSet, err := d.DataSetFactory.CreateDataSet(dataSetType, firstDataSetSource)
+
+	if err != nil {
+		return false, err
+	}
+
+	secondDataSet, err := d.DataSetFactory.CreateDataSet(dataSetType, secondDataSetSource)
+
+	if err != nil {
+		return false, err
+	}
 
 	return firstDataSet.IsEqual(secondDataSet)
 }
