@@ -33,4 +33,6 @@ BenchmarkWithDirectlyFindObjectWithHashMapOrdered-8            	1000000000	     
 
 
 # Example
+File names are passed as arguments to main.go shown below
+
 go run main.go "./MOCK_DATA.json" "./MOCK_DATA copy.json"
