@@ -24,9 +24,7 @@ func BenchmarkWithDirectlyFindAttributeKeyByMapKey(b *testing.B) {
 		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
 	}
 
-	isEqual, _ := dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA.json", 0)
-
-	print(isEqual)
+	dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA_shuffled.json", 0)
 }
 
 func BenchmarkWithDirectlyFindObjectWithHashMap(b *testing.B) {
@@ -38,7 +36,5 @@ func BenchmarkWithDirectlyFindObjectWithHashMap(b *testing.B) {
 		DataSetFactory: model.InitDefaultDataSetFactory(dataSetComparer),
 	}
 
-	isEqual, _ := dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA.json", 1)
-
-	print(isEqual)
+	dataSetCompare.CompareDataSets("MOCK_DATA.json", "MOCK_DATA_shuffled.json", 1)
 }
