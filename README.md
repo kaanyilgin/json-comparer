@@ -30,3 +30,7 @@ BenchmarkWithDirectlyFindObjectWithHashMapRandomOrdered-8      	1000000000	     
 ##### Ordered Dataset:
 BenchmarkWithDirectlyFindAttributeKeyByMapKeyOrdered-8         	1000000000	         0.0103 ns/op	       0 B/op	       0 allocs/op
 BenchmarkWithDirectlyFindObjectWithHashMapOrdered-8            	1000000000	         0.0188 ns/op	       0 B/op	       0 allocs/op
+
+
+# Example
+go run main.go "./MOCK_DATA.json" "./MOCK_DATA copy.json"
