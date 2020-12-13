@@ -2,7 +2,7 @@ package model
 
 // DataSetComparer provides an interface to compare two dataset
 type DataSetComparer interface {
-	Compare(firstDataSet *DataSetArrayObject, secondDataSet *DataSetArrayObject) (bool, error)
+	Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error)
 }
 
 //LoopingTwoDataSetComparer compares two dataset going through whole dataset
@@ -11,25 +11,28 @@ type LoopingTwoDataSetComparer struct {
 }
 
 //Compare compares two dataset
-func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSetArrayObject, secondDataSet *DataSetArrayObject) (bool, error) {
-	for i := 0; i < firstDataSet.getObjectCount(); i++ {
+func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+	firstDataSetObjects := firstDataSet.objects.([]JSONObject)
+	secondDataSetObjects := secondDataSet.objects.([]JSONObject)
+
+	for i := 0; i < len(firstDataSetObjects); i++ {
 		differentObjectCount := 0
-		object := firstDataSet.objects[i]
+		object := firstDataSetObjects[i]
 
-		for j := 0; j < secondDataSet.getObjectCount(); j++ {
-			objectCompared := secondDataSet.objects[j]
+		for j := 0; j < len(secondDataSetObjects); j++ {
+			objectCompared := secondDataSetObjects[j]
 
-			if isEqual, _ := object.Compare(l.ObjectComparer, objectCompared); isEqual == false {
+			if isEqual, _ := l.ObjectComparer.Compare(object, objectCompared); isEqual == false {
 				differentObjectCount++
 			} else {
-				firstDataSet.objects = remove(firstDataSet.objects, i)
-				secondDataSet.objects = remove(secondDataSet.objects, j)
+				firstDataSetObjects = remove(firstDataSetObjects, i)
+				secondDataSetObjects = remove(secondDataSetObjects, j)
 				differentObjectCount--
 				i--
 				break
 			}
 
-			objectIsExistInComparedDataSet := firstDataSet.getObjectCount() != differentObjectCount
+			objectIsExistInComparedDataSet := len(firstDataSetObjects) != differentObjectCount
 
 			if objectIsExistInComparedDataSet == false {
 				return false, nil
@@ -49,9 +52,12 @@ type HashMapDataSetComparer struct {
 }
 
 //Compare compares two dataset
-func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet2, secondDataSet *DataSet2) (bool, error) {
-	for key := range firstDataSet.objects.dictionary {
-		comparedObject := secondDataSet.objects.dictionary[key]
+func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
+	firstDataSetObjects := firstDataSet.objects.(JSONObjectMap)
+	secondDataSetObjects := secondDataSet.objects.(JSONObjectMap)
+
+	for key := range firstDataSetObjects.dictionary {
+		comparedObject := secondDataSetObjects.dictionary[key]
 
 		if comparedObject == nil {
 			return false, nil

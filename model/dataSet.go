@@ -1,5 +1,5 @@
 package model
 
-type IDataSet interface {
-	IsEqual(comparedData interface{}) (bool, error)
+type IJSONObject interface {
+	GetLength(object IJSONObject) int
 }

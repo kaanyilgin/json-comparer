@@ -5,7 +5,7 @@ const (
 )
 
 type DataSetFactory interface {
-	CreateDataSetFactory(dataSetType int, dataSetObjects interface{}) IDataSet
+	CreateDataSet(dataSetType int, dataSetObjects interface{}) *DataSet
 }
 
 type DefaultDataSetFactory struct {
@@ -18,9 +18,9 @@ func InitDefaultDataSetFactory(dataSetComparer DataSetComparer) *DefaultDataSetF
 	}
 }
 
-func (d DefaultDataSetFactory) CreateDataSetFactory(dataSetType int, dataSetObjects interface{}) IDataSet {
+func (d DefaultDataSetFactory) CreateDataSet(dataSetType int, dataSetObjects interface{}) *DataSet {
 	if dataSetType == DataSetArrayObjectType {
-		return InitDataSetArrayObject(dataSetObjects.([]map[string]interface{}), d.dataSetComparer)
+		return InitDataSet(dataSetObjects.([]map[string]interface{}), d.dataSetComparer)
 	}
 
 	return nil

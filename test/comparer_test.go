@@ -134,14 +134,17 @@ func compareDataSet(dataset1 string, dataset2 string) bool {
 	return isEqual
 }
 
-func createDataSet(data string) *model.DataSetArrayObject {
+func createDataSet(data string) *model.DataSet {
 	dataSetComparer := model.LoopingTwoDataSetComparer{
 		ObjectComparer: model.FindAttributeByKeyObjectComparer{},
 	}
+	// dataSetComparer := model.HashMapDataSetComparer{}
 
 	jsonParser := &model.JSONObjectParser{}
+	// jsonParser := &model.JSONObjectMapParser{}
 	objects := jsonParser.ParseJSON(data).([]map[string]interface{})
-	dataSet := model.NewDataSetTesting(objects, dataSetComparer)
+	// objects := jsonParser.ParseJSON(data).(model.JSONObjectMap)
+	dataSet := model.InitDataSet(objects, dataSetComparer)
 	return dataSet
 }
 

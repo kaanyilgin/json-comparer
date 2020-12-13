@@ -11,6 +11,18 @@ type JSONObjectMap struct {
 	dictionary map[string]*JSONObject
 }
 
+// NewJSONObject creates a new JSONObject object
+func InitJSONObjectMap(attributes map[string]*JSONObject) *JSONObjectMap {
+	return &JSONObjectMap{
+		dictionary: attributes,
+	}
+}
+
+// Compare compares the given json object
+func (jsonObject JSONObjectMap) GetLength(object IJSONObject) int {
+	return len(jsonObject.dictionary)
+}
+
 // UnmarshalJSON custom json UnmarshalJSON
 func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 
@@ -24,7 +36,7 @@ func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 	for _, object := range unMarshalledData {
 		jsonObject2 := object.(map[string]interface{})
 		hash := utility.AsSha256(jsonObject2)
-		j.dictionary[hash] = NewJSONObject(jsonObject2)
+		j.dictionary[hash] = InitJSONObject(jsonObject2)
 	}
 
 	return nil

@@ -15,8 +15,8 @@ func (d DataSetCompare) CompareDataSets(fileName1 string, fileName2 string) (boo
 	firstDataSetSource, _ := d.readDataFromSource(fileName1)
 	secondDataSetSource, _ := d.readDataFromSource(fileName2)
 
-	firstDataSet := d.DataSetFactory.CreateDataSetFactory(0, firstDataSetSource)
-	secondDataSet := d.DataSetFactory.CreateDataSetFactory(0, secondDataSetSource)
+	firstDataSet := d.DataSetFactory.CreateDataSet(0, firstDataSetSource)
+	secondDataSet := d.DataSetFactory.CreateDataSet(0, secondDataSetSource)
 
 	return firstDataSet.IsEqual(secondDataSet)
 }
