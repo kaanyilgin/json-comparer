@@ -8,11 +8,11 @@ import (
 
 // JSONObjectMap stands TODO
 type JSONObjectMap struct {
-	dictionary map[string]*JSONObject
+	dictionary map[string]*CountJsonObjectPair
 }
 
 // NewJSONObject creates a new JSONObject object
-func InitJSONObjectMap(attributes map[string]*JSONObject) *JSONObjectMap {
+func InitJSONObjectMap(attributes map[string]*CountJsonObjectPair) *JSONObjectMap {
 	return &JSONObjectMap{
 		dictionary: attributes,
 	}
@@ -31,12 +31,22 @@ func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	j.dictionary = make(map[string]*JSONObject, 0)
+	j.dictionary = make(map[string]*CountJsonObjectPair, 0)
 
 	for _, object := range unMarshalledData {
 		jsonObject2 := object.(map[string]interface{})
 		hash := utility.AsSha256(jsonObject2)
-		j.dictionary[hash] = InitJSONObject(jsonObject2)
+
+		if val, isExist := j.dictionary[hash]; isExist {
+			val.jsonObjectCount++
+			j.dictionary[hash] = val
+		} else {
+			j.dictionary[hash] = &CountJsonObjectPair{
+				jsonObjectCount: 1,
+				jsonObject:      InitJSONObject(jsonObject2),
+			}
+		}
+
 	}
 
 	return nil

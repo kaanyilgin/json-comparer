@@ -56,11 +56,15 @@ func (h HashMapDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *Da
 	firstDataSetObjects := firstDataSet.objects.(JSONObjectMap)
 	secondDataSetObjects := secondDataSet.objects.(JSONObjectMap)
 
-	for key := range firstDataSetObjects.dictionary {
+	for key, object := range firstDataSetObjects.dictionary {
 		comparedObject := secondDataSetObjects.dictionary[key]
 
 		if comparedObject == nil {
 			return false, nil
+		} else {
+			if comparedObject.jsonObjectCount != object.jsonObjectCount {
+				return false, nil
+			}
 		}
 	}
 
