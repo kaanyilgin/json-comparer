@@ -12,27 +12,27 @@ type LoopingTwoDataSetComparer struct {
 
 //Compare compares two dataset
 func (l LoopingTwoDataSetComparer) Compare(firstDataSet *DataSet, secondDataSet *DataSet) (bool, error) {
-	firstDataSetObjects := firstDataSet.objects.([]JSONObject)
-	secondDataSetObjects := secondDataSet.objects.([]JSONObject)
+	firstDataSetObjects := firstDataSet.objects.(*JSONObjectArray)
+	secondDataSetObjects := secondDataSet.objects.(*JSONObjectArray)
 
-	for i := 0; i < len(firstDataSetObjects); i++ {
+	for i := 0; i < firstDataSetObjects.GetLength(); i++ {
 		differentObjectCount := 0
-		object := firstDataSetObjects[i]
+		object := firstDataSetObjects.dictonary[i]
 
-		for j := 0; j < len(secondDataSetObjects); j++ {
-			objectCompared := secondDataSetObjects[j]
+		for j := 0; j < secondDataSetObjects.GetLength(); j++ {
+			objectCompared := secondDataSetObjects.dictonary[j]
 
 			if isEqual, _ := l.ObjectComparer.Compare(object, objectCompared); isEqual == false {
 				differentObjectCount++
 			} else {
-				firstDataSetObjects = remove(firstDataSetObjects, i)
-				secondDataSetObjects = remove(secondDataSetObjects, j)
+				firstDataSetObjects.dictonary = remove(firstDataSetObjects.dictonary, i)
+				secondDataSetObjects.dictonary = remove(secondDataSetObjects.dictonary, j)
 				differentObjectCount--
 				i--
 				break
 			}
 
-			objectIsExistInComparedDataSet := len(firstDataSetObjects) != differentObjectCount
+			objectIsExistInComparedDataSet := firstDataSetObjects.GetLength() != differentObjectCount
 
 			if objectIsExistInComparedDataSet == false {
 				return false, nil

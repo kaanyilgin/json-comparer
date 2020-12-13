@@ -19,7 +19,7 @@ func InitJSONObjectMap(attributes map[string]*JSONObject) *JSONObjectMap {
 }
 
 // Compare compares the given json object
-func (jsonObject JSONObjectMap) GetLength(object IJSONObject) int {
+func (jsonObject JSONObjectMap) GetLength() int {
 	return len(jsonObject.dictionary)
 }
 

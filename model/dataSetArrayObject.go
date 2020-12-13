@@ -2,12 +2,12 @@ package model
 
 // DataSetArrayObject stored json object as array
 type DataSet struct {
-	objects         interface{}
+	objects         IJSONObject
 	dataSetComparer DataSetComparer
 }
 
 // InitDataSetArrayObject creates a new DataSetArrayObject object
-func InitDataSetArrayObject(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSet {
+func InitDataSet(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSet {
 	jsonObjects := make([]JSONObject, 0)
 
 	for _, v := range objects {
@@ -17,7 +17,9 @@ func InitDataSetArrayObject(objects []map[string]interface{}, dataSetComparer Da
 
 	return &DataSet{
 		dataSetComparer: dataSetComparer,
-		objects:         jsonObjects,
+		objects: &JSONObjectArray{
+			dictonary: jsonObjects,
+		},
 	}
 }
 
@@ -32,29 +34,18 @@ func InitDataSetHashMapObject(objects []map[string]interface{}, dataSetComparer 
 
 	return &DataSet{
 		dataSetComparer: dataSetComparer,
-		objects:         jsonObjects,
+		objects: &JSONObjectArray{
+			dictonary: jsonObjects,
+		},
 	}
 }
 
-// NewDataSet creates a new DataSet object for testing
-func NewDataSetTesting(objects JSONObjectMap, dataSetComparer DataSetComparer) *DataSet {
-	return &DataSet{
-		dataSetComparer: dataSetComparer,
-		objects:         objects,
-	}
-}
-
-func (dataSet *DataSet) IsEqual(comparedData interface{}) (bool, error) {
-	dataSetType := comparedData.(*DataSet)
-	isSameSize := dataSet.getObjectCount() == dataSetType.getObjectCount()
+func (dataSet *DataSet) IsEqual(comparedData *DataSet) (bool, error) {
+	isSameSize := dataSet.objects.GetLength() == comparedData.objects.GetLength()
 
 	if isSameSize == false {
 		return false, nil
 	}
 
-	return dataSet.dataSetComparer.Compare(dataSet, dataSetType)
-}
-
-func (dataSet *DataSet) getObjectCount() int {
-	return 1000 // TODO
+	return dataSet.dataSetComparer.Compare(dataSet, comparedData)
 }

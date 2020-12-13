@@ -12,7 +12,15 @@ func InitJSONObject(attributes map[string]interface{}) *JSONObject {
 	}
 }
 
+type IJSONObject interface {
+	GetLength() int
+}
+
+type JSONObjectArray struct {
+	dictonary []JSONObject
+}
+
 // Compare compares the given json object
-func (jsonObject JSONObject) GetLength(object IJSONObject) int {
-	return len(jsonObject.attributes)
+func (jsonObjectArray JSONObjectArray) GetLength() int {
+	return len(jsonObjectArray.dictonary)
 }
