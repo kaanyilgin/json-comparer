@@ -9,7 +9,7 @@ type JSONParser interface {
 	ParseJSON(data string) interface{}
 }
 
-//SystemJSONParser parse json to JSONObjects by using "encoding/json"
+// JSONObjectMapParser parse json to JSONObjects by using "encoding/json"
 type JSONObjectMapParser struct {
 }
 
@@ -20,7 +20,7 @@ func (j JSONObjectMapParser) ParseJSON(data string) interface{} {
 	return result
 }
 
-//SystemJSONParser parse json to JSONObjects by using "encoding/json"
+// JSONObjectParser parse json to JSONObjects by using "encoding/json"
 type JSONObjectParser struct {
 }
 

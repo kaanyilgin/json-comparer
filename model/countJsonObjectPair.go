@@ -1,7 +1,7 @@
 package model
 
-// CountJsonObjectPair is store the count of duplicated json objects
-type CountJsonObjectPair struct {
+// CountJSONObjectPair is store the count of duplicated json objects
+type CountJSONObjectPair struct {
 	jsonObjectCount int
 	jsonObject      *JSONObject
 }

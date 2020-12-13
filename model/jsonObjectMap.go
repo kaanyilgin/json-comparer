@@ -6,24 +6,24 @@ import (
 	"kaanyilgin.com/dataComparer/utility"
 )
 
-// JSONObjectMap stands TODO
+// JSONObjectMap stores json object as hash map and count json object pair type
 type JSONObjectMap struct {
-	dictionary map[string]*CountJsonObjectPair
+	dictionary map[string]*CountJSONObjectPair
 }
 
-// NewJSONObject creates a new JSONObject object
-func InitJSONObjectMap(attributes map[string]*CountJsonObjectPair) *JSONObjectMap {
+// InitJSONObjectMap is a constructor for JSONObjectMap
+func InitJSONObjectMap(attributes map[string]*CountJSONObjectPair) *JSONObjectMap {
 	return &JSONObjectMap{
 		dictionary: attributes,
 	}
 }
 
-// Compare compares the given json object
-func (jsonObject JSONObjectMap) GetLength() int {
-	return len(jsonObject.dictionary)
+// GetLength returns the map length
+func (j JSONObjectMap) GetLength() int {
+	return len(j.dictionary)
 }
 
-// UnmarshalJSON custom json UnmarshalJSON
+// UnmarshalJSON parse json to JSONObjectMap
 func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 
 	var unMarshalledData []interface{}
@@ -31,7 +31,7 @@ func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	j.dictionary = make(map[string]*CountJsonObjectPair, 0)
+	j.dictionary = make(map[string]*CountJSONObjectPair, 0)
 
 	for _, object := range unMarshalledData {
 		jsonObject2 := object.(map[string]interface{})
@@ -41,7 +41,7 @@ func (j *JSONObjectMap) UnmarshalJSON(data []byte) error {
 			val.jsonObjectCount++
 			j.dictionary[hash] = val
 		} else {
-			j.dictionary[hash] = &CountJsonObjectPair{
+			j.dictionary[hash] = &CountJSONObjectPair{
 				jsonObjectCount: 1,
 				jsonObject:      InitJSONObject(jsonObject2),
 			}

@@ -1,12 +1,12 @@
 package model
 
-// DataSetArrayObject stored json object as array
+// DataSet stored json object as array
 type DataSet struct {
 	objects         IJSONObject
 	dataSetComparer DataSetComparer
 }
 
-// InitDataSetArrayObject creates a new DataSetArrayObject object
+// InitDataSet creates a new DataSet object
 func InitDataSet(objects []map[string]interface{}, dataSetComparer DataSetComparer) *DataSet {
 	jsonObjects := make([]JSONObject, 0)
 
@@ -23,7 +23,7 @@ func InitDataSet(objects []map[string]interface{}, dataSetComparer DataSetCompar
 	}
 }
 
-// InitDataSetArrayObject creates a new DataSetArrayObject object
+// InitDataSetHashMapObject creates a new DataSet object
 func InitDataSetHashMapObject(objects JSONObjectMap, dataSetComparer DataSetComparer) *DataSet {
 	return &DataSet{
 		objects,
@@ -31,6 +31,7 @@ func InitDataSetHashMapObject(objects JSONObjectMap, dataSetComparer DataSetComp
 	}
 }
 
+// IsEqual compares the given data set
 func (dataSet *DataSet) IsEqual(comparedData *DataSet) (bool, error) {
 	isSameSize := dataSet.objects.GetLength() == comparedData.objects.GetLength()
 

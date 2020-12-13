@@ -12,15 +12,17 @@ func InitJSONObject(attributes map[string]interface{}) *JSONObject {
 	}
 }
 
+// IJSONObject is an interface for different data set structs
 type IJSONObject interface {
 	GetLength() int
 }
 
+// JSONObjectArray stores the json objects in a plain array
 type JSONObjectArray struct {
 	dictonary []JSONObject
 }
 
-// Compare compares the given json object
+// GetLength returns the array length
 func (jsonObjectArray JSONObjectArray) GetLength() int {
 	return len(jsonObjectArray.dictonary)
 }
